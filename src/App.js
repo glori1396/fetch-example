@@ -1,28 +1,28 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './main.css';
+import { Route, Switch } from 'react-router-dom';
+
+import Header from './Header.js';
+import BooksList from './BooksList.js';
+import BookDetails from './BookDetails.js'
+import newBook from './newBook.js'
 
 class App extends Component {
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <section>
+        <Header />
+        <Switch>
+          <Route exact path={`${this.props.match.url}/`} component={BooksList} />
+          <Route exact path={`${this.props.match.url}/add`} component={newBook} />
+          <Route path={`${this.props.match.url}/:idBook`} component={BookDetails} />
+
+        </Switch>
+      </section>
     );
   }
 }
 
-export default App;
+
+export default (App);

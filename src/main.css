@@ -1,0 +1,239 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(248, 246, 246);
+}
+
+a, p, h1, h2, h3, h4, h5, ul, li {
+  padding: 0;
+  margin: 0;
+}
+
+.login {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background-color: whitesmoke;
+}
+
+.login__container {
+  background-color: rgb(214, 212, 212);
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.login__container h1 {
+  color: rgb(65, 65, 65);
+}
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login__input {
+  margin: 0.5rem 0 0.5rem;
+  width: 70%;
+  text-align: center;
+  border: 0;
+  border-bottom: 2px solid rgb(139, 139, 139);
+  color: rgb(88, 88, 88);
+  font-size: 1.07rem;
+}
+
+.login__button {
+  width: 6rem;
+  padding: 0.3rem;
+  text-align: center;
+  border: 0;
+  color: rgb(243, 243, 243);
+  font-size: 1.07rem;
+  font-weight: bold;
+  background-color: rgb(145, 145, 145);
+  cursor: pointer;
+}
+
+
+.header {
+  padding: 0 2rem 0;
+  background-color: rgb(205, 205, 207);
+}
+
+.navBar {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  color: rgb(94, 94, 94);
+  height: 3rem;
+}
+
+.navBar a {
+  color: rgb(94, 94, 94);
+  text-decoration: none;
+}
+
+.navBar__menu {
+  display: flex;
+  text-decoration: none;
+  list-style-type: none;
+}
+
+.navBar__menu li {
+  width: 6rem;
+  display: flex;
+  text-align: center;
+}
+
+.navBar__menu li:first-child {
+  border-right: 2px solid rgba(104, 104, 104, 0.637);
+}
+
+.navBar__menu__item {
+  flex: 1;
+  background-color: rgb(165, 165, 165);
+  padding: 0.3rem 0 0.3rem;
+}
+
+.container {
+  margin: 2rem 5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.book__container:not(:last-child){
+  border-bottom: 2px solid rgb(187, 187, 187);
+}
+
+.container__title {
+  font-size: 2rem;
+  width: 30rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid rgb(196, 196, 196);
+  color: rgb(94, 94, 94);
+}
+
+.book {
+  background-color: rgb(223, 223, 223);
+  width: 25rem;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  color: rgb(94, 94, 94);
+  align-items: baseline;
+  cursor: pointer;
+}
+
+.book__button {
+  border-radius: 100%;
+  color: rgb(131, 131, 131);
+  border: none;
+  width: 1.5rem;
+}
+
+.show_details {
+  padding: 1rem;
+  background-color: rgb(255, 255, 255);
+  color: rgb(94, 94, 94);
+}
+
+.show_container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.show_details__button {
+  padding: 0.3em;
+  margin: 0 0.3rem 0;
+  width: 5rem;
+  color: rgb(94, 94, 94);
+  font-weight: bold;
+  border:none;
+  border-radius: 0.3rem;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.show_details__button a {
+  flex: 1;
+  text-decoration: inherit;
+  color: inherit;
+}
+
+.details {
+  height: 95vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(205, 205, 207);
+  color: rgb(71, 71, 71);
+  width: 25rem;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  height: 20rem;
+}
+
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal__header a {
+  color: rgb(94, 94, 94);
+  text-decoration: none;
+}
+
+.modal__form {
+  display: flex;
+  flex-direction: column;
+  padding: 5%;
+  align-items: center;
+}
+
+.modal__form > * {
+  margin: 0.5rem;
+}
+
+.modal__form label {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.modal__form input[type=text] {
+  width: 20rem;
+  height: 1.5rem;
+  text-align: center;
+  border: 0;
+  border-bottom: 2px solid rgb(139, 139, 139);
+  color: rgb(88, 88, 88);
+  font-size: 1.07rem;
+}
+
+.modal__form input[type=submit] {
+  width: 7rem;
+  padding: 0.3rem;
+  text-align: center;
+  border: 0;
+  color: rgb(243, 243, 243);
+  font-size: 1.07rem;
+  font-weight: bold;
+  background-color: rgb(145, 145, 145);
+}
