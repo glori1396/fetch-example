@@ -9,24 +9,45 @@ import Login from './Login';
 import Root from './Root';
 import * as serviceWorker from './serviceWorker';
 
+const handleAddToken = (user) => {
+    fetch(`http://10.28.6.4:8080/v2/user/login`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+    }).then(function (response) {
+        return response.json();
+    }).then(function (myJson) {
+        let date = new Date();
+        sessionStorage.setItem("token", myJson.token);
+        sessionStorage.setItem("time", date.getTime());
+    })
+}
 
-
-
-function reducer(state = { customer: sessionStorage.getItem("customer") }, action) {
+function reducer(state = { token: sessionStorage.getItem("token") }, action) {
     switch (action.type) {
-        case 'LOGIN':
-            sessionStorage.setItem("customer", action.customer)
+        case 'ADD_TOKEN':
+            handleAddToken(action.user);
             return Object.assign(
                 {},
                 state, {
-                    customer: action.customer
+                    token: sessionStorage.getItem("token")
                 });
-        case 'LOGOUT':
+        case 'DELETE_TOKEN':
             return Object.assign(
                 {},
                 state, {
-                    customer: ''
+                    token: ''
                 });
+        case 'RENEW_TOKEN':
+            //sessionStorage.setItem("token", "algo va aqui")
+            return Object.assign(
+                {},
+                state, {
+                    token: ''
+                }
+            )
         default:
             return state;
     }

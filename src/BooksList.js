@@ -20,7 +20,8 @@ class BooksList extends Component {
         let actual_timestamp = new Date();
         actual_timestamp = parseInt(actual_timestamp.getTime());
         console.log("TIMMMME: " + (actual_timestamp - token_timestamp))
-        if ((actual_timestamp - token_timestamp) < 300000) {
+        if ((actual_timestamp - token_timestamp) >= 120000) {
+            console.log("si entro")
             fetch(`http://10.28.6.4:8080/v2/user/renew`, {
                 method: 'POST',
                 headers: {
@@ -91,7 +92,7 @@ class BooksList extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        customer: state.customer
+        token: state.token
     };
 }
 

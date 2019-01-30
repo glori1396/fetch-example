@@ -19,24 +19,12 @@ class App extends Component {
         this.setState({ password: event.target.value });
     }
 
-    handleSubmit = async (event) => {
+    handleSubmit = (event) => {
         event.preventDefault();
         if (this.state.value === '') {
             alert("Insert user.")
         } else {
-            await fetch(`http://10.28.6.4:8080/v2/user/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(this.state)
-            }).then(function (response) {
-                return response.json();
-            }).then(function (myJson) {
-                let date = new Date();
-                sessionStorage.setItem("token", myJson.token);
-                sessionStorage.setItem("time", date.getTime());
-            })
+            this.props.onAddToken(this.state);
             this.props.history.push('/home');
         }
     }
@@ -64,11 +52,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onLogin: (customer) => {
-            dispatch({ type: 'LOGIN', customer })
-        },
-        onLogout: () => {
-            dispatch({ type: 'LOGOUT' })
+        onAddToken: (user) => {
+            dispatch({ type: 'ADD_TOKEN', user })
         }
     };
 }
