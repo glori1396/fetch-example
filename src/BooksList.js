@@ -12,38 +12,65 @@ class BooksList extends Component {
             books: []
         };
         this.handleRemove = this.handleRemove.bind(this);
+        this.handletimestamp = this.handletimestamp.bind(this);
     }
 
+    handletimestamp() {
+        let token_timestamp = parseInt(sessionStorage.getItem("time"));
+        let actual_timestamp = new Date();
+        actual_timestamp = parseInt(actual_timestamp.getTime());
+        console.log("TIMMMME: " + (actual_timestamp - token_timestamp))
+        if ((actual_timestamp - token_timestamp) < 300000) {
+            fetch(`http://10.28.6.4:8080/v2/user/renew`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': sessionStorage.getItem("token")
+                }
+            }).then(function (response) {
+                return response.json();
+            }).then(function (myJson) {
+                let date = new Date();
+                sessionStorage.setItem("token", myJson.token);
+                sessionStorage.setItem("time", date.getTime());
+            })
+        }
+    }
+
+
     handleGetBooks = () => {
+        this.handletimestamp();
         let me = this;
-        fetch("http://10.28.6.4:8080/book", {
+        fetch("http://10.28.6.4:8080/v2/book", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'customer': this.props.customer
+                'auth-token': sessionStorage.getItem("token")
             }
         }).then(function (response) {
             return response.json();
         }).then(function (myJson) {
-            console.log("holiiiiiiiiiii")
             me.setState({ books: myJson })
         })
     }
 
     componentDidMount() {
-        this.handleGetBooks();
+        if (!sessionStorage.getItem("token")) {
+            this.props.history.push('/')
+        } else {
+            this.handleGetBooks();
+        }
     }
 
 
     handleRemove(id) {
-        fetch(`http://10.28.6.4:8080/book/${id}`, {
+        fetch(`http://10.28.6.4:8080/v2/book/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                'customer': sessionStorage.getItem("customer")
+                'auth-token': sessionStorage.getItem("token")
             }
         })
-        console.log("aquiiiiiiiiii en delete")
         let newBooks = [...this.state.books];
         let index = newBooks.findIndex(function (item, i) {
             return String(item.id) === id;

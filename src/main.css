@@ -113,6 +113,10 @@ a, p, h1, h2, h3, h4, h5, ul, li {
   border-bottom: 2px solid rgb(187, 187, 187);
 }
 
+.clicked {
+  transform: rotateX(180deg);
+}
+
 .container__title {
   font-size: 2rem;
   width: 30rem;
@@ -139,6 +143,7 @@ a, p, h1, h2, h3, h4, h5, ul, li {
   color: rgb(131, 131, 131);
   border: none;
   width: 1.5rem;
+  transition: all 0.5s;
 }
 
 .show_details {

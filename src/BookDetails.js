@@ -16,6 +16,30 @@ class BookDetails extends Component {
         this.handleUpdate = this.handleUpdate.bind(this);
         this.handleChangeName = this.handleChangeName.bind(this);
         this.handleChangeAuthor = this.handleChangeAuthor.bind(this);
+        this.handletimestamp = this.handletimestamp.bind(this);
+    }
+
+
+    handletimestamp() {
+        let token_timestamp = parseInt(sessionStorage.getItem("time"));
+        let actual_timestamp = new Date();
+        actual_timestamp = parseInt(actual_timestamp.getTime());
+        console.log("TIMMMME: " + (actual_timestamp - token_timestamp))
+        if ((actual_timestamp - token_timestamp) < 300000) {
+            fetch(`http://10.28.6.4:8080/v2/user/renew`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': sessionStorage.getItem("token")
+                }
+            }).then(function (response) {
+                return response.json();
+            }).then(function (myJson) {
+                let date = new Date();
+                sessionStorage.setItem("token", myJson.token);
+                sessionStorage.setItem("time", date.getTime());
+            })
+        }
     }
 
     handleChangeName(event) {
@@ -38,11 +62,12 @@ class BookDetails extends Component {
 
     handleUpdate() {
         let me = this;
-        fetch(`http://10.28.6.4:8080/book/${me.props.match.params.idBook}`, {
+        me.handletimestamp();
+        fetch(`http://10.28.6.4:8080/v2/book/${me.props.match.params.idBook}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'customer': sessionStorage.getItem("customer")
+                'auth-token': sessionStorage.getItem("token")
             },
             body: JSON.stringify(me.state)
         })
@@ -50,11 +75,12 @@ class BookDetails extends Component {
 
     componentDidMount() {
         let me = this;
-        fetch(`http://10.28.6.4:8080/book/${me.props.match.params.idBook}`, {
+        me.handletimestamp();
+        fetch(`http://10.28.6.4:8080/v2/book/${me.props.match.params.idBook}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'customer': sessionStorage.getItem("customer")
+                'auth-token': sessionStorage.getItem("token")
             }
         }).then(function (response) {
             return response.json();

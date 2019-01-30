@@ -9,6 +9,12 @@ import newBook from './newBook.js'
 
 class App extends Component {
 
+  componentDidMount = () => {
+    if (!sessionStorage.getItem("token")) {
+      this.props.history.push('/')
+    }
+  }
+
   render() {
     return (
       <section>
@@ -17,7 +23,6 @@ class App extends Component {
           <Route exact path={`${this.props.match.url}/`} component={BooksList} />
           <Route exact path={`${this.props.match.url}/add`} component={newBook} />
           <Route path={`${this.props.match.url}/:idBook`} component={BookDetails} />
-
         </Switch>
       </section>
     );

@@ -6,27 +6,37 @@ class App extends Component {
 
     constructor() {
         super();
-        this.state = { value: '' };
-        this.handleChange = this.handleChange.bind(this);
+        this.state = { username: '', password: '' };
+        this.handleChangeUsername = this.handleChangeUsername.bind(this);
+        this.handleChangePassword = this.handleChangePassword.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleLogin = this.handleLogin.bind(this);
     }
 
-
-    handleLogin(user) {
-        this.props.onLogin(user);
+    handleChangeUsername(event) {
+        this.setState({ username: event.target.value });
+    }
+    handleChangePassword(event) {
+        this.setState({ password: event.target.value });
     }
 
-    handleChange(event) {
-        this.setState({ value: event.target.value });
-    }
-
-    handleSubmit(event) {
+    handleSubmit = async (event) => {
         event.preventDefault();
         if (this.state.value === '') {
             alert("Insert user.")
         } else {
-            this.handleLogin(this.state.value)
+            await fetch(`http://10.28.6.4:8080/v2/user/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(this.state)
+            }).then(function (response) {
+                return response.json();
+            }).then(function (myJson) {
+                let date = new Date();
+                sessionStorage.setItem("token", myJson.token);
+                sessionStorage.setItem("time", date.getTime());
+            })
             this.props.history.push('/home');
         }
     }
@@ -37,7 +47,8 @@ class App extends Component {
                 <div className="login__container">
                     <h1>LOGIN</h1>
                     <form onSubmit={this.handleSubmit} className="login__form">
-                        <input className="login__input" type="text" value={this.state.value} onChange={this.handleChange} />
+                        <input className="login__input" type="text" value={this.state.value} placeholder="Username" onChange={this.handleChangeUsername} />
+                        <input className="login__input" type="password" value={this.state.value} placeholder="Password" onChange={this.handleChangePassword} />
                         <input className="login__button" type="submit" value="Enter" />
                     </form>
                 </div>

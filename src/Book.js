@@ -11,7 +11,32 @@ class Book extends Component {
             name: "",
             author: ""
         }
+        this.handletimestamp = this.handletimestamp.bind(this);
     }
+
+
+    handletimestamp() {
+        let token_timestamp = parseInt(sessionStorage.getItem("time"));
+        let actual_timestamp = new Date();
+        actual_timestamp = parseInt(actual_timestamp.getTime());
+        console.log("TIMMMME: " + (actual_timestamp - token_timestamp))
+        if ((actual_timestamp - token_timestamp) < 300000) {
+            fetch(`http://10.28.6.4:8080/v2/user/renew`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': sessionStorage.getItem("token")
+                }
+            }).then(function (response) {
+                return response.json();
+            }).then(function (myJson) {
+                let date = new Date();
+                sessionStorage.setItem("token", myJson.token);
+                sessionStorage.setItem("time", date.getTime());
+            })
+        }
+    }
+
 
     handleIsClicked = () => {
         this.setState({ isClicked: !this.state.isClicked })
@@ -19,11 +44,12 @@ class Book extends Component {
 
     componentDidMount() {
         let me = this;
-        fetch(`http://10.28.6.4:8080/book/${me.props.id}`, {
+        me.handletimestamp();
+        fetch(`http://10.28.6.4:8080/v2/book/${me.props.id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'customer': sessionStorage.getItem("customer")
+                'auth-token': sessionStorage.getItem("token")
             }
         }).then(function (response) {
             return response.json();
@@ -50,7 +76,7 @@ class Book extends Component {
             <div className="book__container">
                 <div className="book" onClick={this.handleIsClicked}>
                     <h3 className="book__title">{this.state.name}</h3>
-                    <h5 className="book__button">{this.state.isClicked ? "▲" : "▼"}</h5>
+                    <h5 className={this.state.isClicked ? "book__button clicked" : "book__button"}>▼</h5>
                 </div>
                 {this.state.isClicked ? this.handleShowDetails() : null}
             </div>

@@ -5,6 +5,16 @@ import './main.css';
 
 class Header extends Component {
 
+    constructor() {
+        super();
+        this.handleLogout = this.handleLogout.bind(this);
+    }
+
+    handleLogout() {
+        sessionStorage.removeItem("token", '')
+        sessionStorage.removeItem("time", '')
+    }
+
     render() {
         return (
             <div className="header">
@@ -14,7 +24,7 @@ class Header extends Component {
                         <li><Link to='/home' className="navBar__menu__item">Books</Link></li>
                         <li><Link to='/home/add' className="navBar__menu__item">New Book</Link></li>
                     </ul>
-                    <Link to='/' className="navBar__logout" onClick={this.props.onLogout}>Logout</Link>
+                    <Link to='/' className="navBar__logout" onClick={this.handleLogout}>Logout</Link>
                 </nav>
             </div>
         );
